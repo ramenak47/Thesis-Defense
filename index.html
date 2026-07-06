@@ -703,6 +703,7 @@
       + '<div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid #3a4a6b;padding-bottom:8px;margin-bottom:14px;">'
       + '<div id="nLabel" style="font-size:26px;font-weight:700;">&mdash;</div>'
       + '<div id="nTimer" style="font-size:22px;font-variant-numeric:tabular-nums;">00:00</div></div>'
+      + '<img id="nImg" src="" alt="" style="width:100%;border:1px solid #3a4a6b;border-radius:4px;margin-bottom:14px;display:none;">'
       + '<div id="nText" style="white-space:pre-wrap;">Waiting for the deck &mdash; press an arrow key here or in the deck window.</div>'
       + '<div style="margin-top:22px;font-size:13px;color:#9fb0d0;">Arrow keys HERE drive the deck. Also: Home/End, 1&ndash;9, 0 (slide 10), B (backups).</div>';
     document.body.appendChild(p);
@@ -717,6 +718,10 @@
         if (e.data && typeof e.data.index === 'number') {
           document.getElementById('nLabel').textContent = 'Slide ' + e.data.label;
           document.getElementById('nText').textContent = NOTES[e.data.index] || '(no notes for this slide)';
+          var img = document.getElementById('nImg');
+          img.onload = function () { this.style.display = 'block'; };
+          img.onerror = function () { this.style.display = 'none'; };
+          img.src = 'slide-' + e.data.label.toLowerCase() + '.png';
         }
       };
       bc.postMessage({ cmd: 'sync' });
